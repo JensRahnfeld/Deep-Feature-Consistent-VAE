@@ -16,10 +16,10 @@ class Encoder(nn.Module):
     def __init__(self):
         super(Encoder, self).__init__()
 
-        self.conv1 = nn.Conv2d(3, 32, 4, 2)
-        self.conv2 = nn.Conv2d(32, 64, 4, 2)
-        self.conv3 = nn.Conv2d(64, 128, 4, 2)
-        self.conv4 = nn.Conv2d(128, 256, 4, 2)
+        self.conv1 = nn.Conv2d(3, 32, 4, 2, 1)
+        self.conv2 = nn.Conv2d(32, 64, 4, 2, 1)
+        self.conv3 = nn.Conv2d(64, 128, 4, 2, 1)
+        self.conv4 = nn.Conv2d(128, 256, 4, 2, 1)
 
         self.bn1 = nn.BatchNorm2d(32)
         self.bn2 = nn.BatchNorm2d(64)
