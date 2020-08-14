@@ -21,6 +21,9 @@ if __name__ == '__main__':
     parser.add_argument('--logdir', type=str, default="./tensorboard",\
         help="path to tensorboard logdir")
     parser.add_argument('--workers', type=int, default=8, help="number of workers")
+    parser.add_argument('--modeldir', type=str, default="./trained_models",\
+        help="path to folder saving trained model")
+    parser.add_argument('-o', type=str, default="vae", help="name of model")
     
     args = parser.parse_args()
 
@@ -50,13 +53,14 @@ if __name__ == '__main__':
     def lr_decay(n): return WEIGHT_DECAY**n
     scheduler = optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda=lr_decay)
 
+    t = 0
+
     for n in range(EPOCHS):
         print("epoch: {0}".format(n))
         
-        t = 0
         for batch in loader:
             sys.stdout.write("\r")
-            sys.stdout.write("progress: {0}/{1}".format(t, len(loader)))
+            sys.stdout.write("progress: {0}/{1}".format(t % len(loader), len(loader)))
             sys.stdout.flush()
             
             x_train, _ = batch
@@ -69,6 +73,8 @@ if __name__ == '__main__':
             rec_loss = vgg123_loss(x_rec, x_train, ALPHA)
             loss = dist_loss + rec_loss
 
+            writer.add_scalar("train/loss", loss, t)
+
             loss.backward()
             optimizer.step()
 
@@ -76,5 +82,13 @@ if __name__ == '__main__':
 
         scheduler.step()
 
+        file_name = os.path.join(args.modeldir, args.o + str(n) + ".tmp" ".pt")
+        torch.save(vae.state_dict(), file_name)
+
         sys.stdout.write("\n")
         sys.stdout.flush()
+    
+    file_name = os.path.join(args.modeldir, args.o + ".pt")
+    torch.save(vae.state_dict(), file_name)
+
+    writer.close()
