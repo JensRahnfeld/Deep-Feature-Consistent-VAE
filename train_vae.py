@@ -74,7 +74,9 @@ if __name__ == '__main__':
             rec_loss = vgg123_loss(x_rec, x_train, ALPHA)
             loss = dist_loss + rec_loss
 
-            writer.add_scalar("train/loss", loss, t)
+            writer.add_scalar("train / kl loss", dist_loss, t)
+            writer.add_scalar("train / rec loss", rec_loss, t)
+            writer.add_scalar("train / total loss", loss, t)
 
             loss.backward()
             optimizer.step()
