@@ -110,4 +110,4 @@ class VAE(_Base):
 
         x_rec = self.decoder(latent)
 
-        return x_rec
+        return x_rec, mu, logvar
