@@ -1,3 +1,4 @@
+DIM_LATENT = 100
 EPOCHS = 5
 BATCH_SIZE = 64
 LEARNING_RATE = 0.0005
@@ -6,6 +7,7 @@ ALPHA = 1
 BETA = 0.5
 
 def print_hyperparameters():
+    print("dim latent           : {0}".format(DIM_LATENT))
     print("number of epochs     : {0}".format(EPOCHS))
     print("batch size           : {0}".format(BATCH_SIZE))
     print("learning rate        : {0}".format(LEARNING_RATE))
