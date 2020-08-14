@@ -12,9 +12,19 @@ def num_flat_features(x):
     return num_features
 
 
-class Encoder(nn.Module):
-    def __init__(self):
-        super(Encoder, self).__init__()
+class _Base(nn.Module):
+    def __init__(self, dim_latent=100):
+        super(_Base, self).__init__()
+
+        self.dim_latent = dim_latent
+    
+    def forward(self, x):
+        raise NotImplementedError()
+
+
+class Encoder(_Base):
+    def __init__(self, *args, **kwargs):
+        super(Encoder, self).__init__(*args, **kwargs)
 
         self.conv1 = nn.Conv2d(3, 32, 4, 2, 1)
         self.conv2 = nn.Conv2d(32, 64, 4, 2, 1)
@@ -26,8 +36,8 @@ class Encoder(nn.Module):
         self.bn3 = nn.BatchNorm2d(128)
         self.bn4 = nn.BatchNorm2d(256)
 
-        self.fc_mu = nn.Linear(256 * 4 * 4, 100)
-        self.fc_logvar = nn.Linear(256 * 4 * 4, 100)
+        self.fc_mu = nn.Linear(256 * 4 * 4, self.dim_latent)
+        self.fc_logvar = nn.Linear(256 * 4 * 4, self.dim_latent)
     
     def forward(self, x):
         x = F.leaky_relu(self.bn1(self.conv1(x)))
@@ -42,11 +52,11 @@ class Encoder(nn.Module):
         return mu, logvar
     
 
-class Decoder(nn.Module):
-    def __init__(self):
-        super(Decoder, self).__init__()
+class Decoder(_Base):
+    def __init__(self, *args, **kwargs):
+        super(Decoder, self).__init__(*args, **kwargs)
 
-        self.fc1 = nn.Linear(100, 256 * 4 * 4)
+        self.fc1 = nn.Linear(self.dim_latent, 256 * 4 * 4)
 
         self.upsample1 = nn.Upsample(scale_factor=2, mode='nearest')
         self.upsample2 = nn.Upsample(scale_factor=2, mode='nearest')
