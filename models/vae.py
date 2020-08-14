@@ -9,15 +9,15 @@ def num_flat_features(x):
     for dim in x.size()[1:]:
         num_features *= dim
     
-    return n
+    return num_features
 
 
 class Encoder(nn.Module):
     def __init__(self):
         super(Encoder, self).__init__()
 
-        self.conv1 = nn.Conv2D(3, 32, 4, 2)
-        self.conv2 = nn.Conv2D(32, 64, 4, 2)
+        self.conv1 = nn.Conv2d(3, 32, 4, 2)
+        self.conv2 = nn.Conv2d(32, 64, 4, 2)
         self.conv3 = nn.Conv2d(64, 128, 4, 2)
         self.conv4 = nn.Conv2d(128, 256, 4, 2)
 
