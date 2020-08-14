@@ -74,6 +74,6 @@ class Decoder(nn.Module):
         x = F.leaky_relu(self.bn1(self.conv1(self.pad1(self.upsample1(x)))))
         x = F.leaky_relu(self.bn2(self.conv1(self.pad2(self.upsample2(x)))))
         x = F.leaky_relu(self.bn3(self.conv3(self.pad3(self.upsample3(x)))))
-        x = self.conv4(self.pad4(self.upsample1(x)))
+        x = self.conv4(self.pad4(self.upsample4(x)))
 
         return x
