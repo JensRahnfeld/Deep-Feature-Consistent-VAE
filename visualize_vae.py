@@ -31,8 +31,8 @@ if __name__ == '__main__':
     ])
 
     dataset = ImageFolder(args.imgdir, transform=transform)
-    loader = DataLoader(dataset, 1, shuffle=True, num_workers=args.workers,\
-        drop_last=True)
+    loader = DataLoader(dataset, 1, shuffle=False, num_workers=args.workers,\
+        drop_last=False)
 
 
     with torch.no_grad():
