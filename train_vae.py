@@ -66,7 +66,8 @@ if __name__ == '__main__':
             x_rec, mu, logvar = vae(x_train)
 
             dist_loss = kl_loss(mu, logvar, BETA)
-            loss = dist_loss
+            rec_loss = vgg123_loss(x_rec, x_train, ALPHA)
+            loss = dist_loss + rec_loss
 
             loss.backward()
             optimizer.step()
