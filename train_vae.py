@@ -47,6 +47,7 @@ if __name__ == '__main__':
         drop_last=True)
 
     if not os.path.exists(args.logdir): os.mkdir(args.logdir)
+    if not os.path.exists(args.modeldir): os.mkdir(args.modeldir)
 
     writer = SummaryWriter(args.logdir)
 
