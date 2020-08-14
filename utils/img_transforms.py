@@ -1,8 +1,6 @@
 import numpy as np
 import torch
 
-from PIL import Image
-
 
 def transform_crop(left, upper, right, lower):
     def _crop(img):
