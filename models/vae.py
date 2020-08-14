@@ -87,3 +87,27 @@ class Decoder(_Base):
         x = self.conv4(self.pad4(self.upsample4(x)))
 
         return x
+
+
+class VAE(_Base):
+    def __init__(self, *args, **kwargs):
+        super(VAE, self).__init__(*args, **kwargs)
+
+        self.encoder = Encoder(self.dim_latent)
+        self.decoder = Decoder(self.dim_latent)
+    
+    def sample(self, mu, stdev):
+        eps = torch.randn(stdev.shape, device=stdev.device)
+        latent = mu + stdev * eps
+
+        return latent
+    
+    def forward(self, x):
+        mu, logvar = self.encoder(x)
+        stdev = torch.exp(logvar / 2.0)
+
+        latent = self.sample(mu, stdev)
+
+        x_rec = self.decoder(latent)
+
+        return x_rec
