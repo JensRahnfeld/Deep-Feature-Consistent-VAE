@@ -30,7 +30,7 @@ if __name__ == '__main__':
     print_hyperparameters()
     
     vae = VAE(DIM_LATENT)
-    vae = vae.cuda()
+    if torch.cuda.is_available(): vae = vae.cuda()
 
 
     transform = transforms.Compose([

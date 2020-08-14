@@ -2,10 +2,10 @@ import torch
 import torch.nn.functional as F
 from models.vggnet import VGG123, VGG345
 
-vgg123 = VGG123()
-vgg123 = vgg123.eval().cuda()
-vgg345 = VGG345()
-vgg345 = vgg345.eval().cuda()
+vgg123 = VGG123().eval()
+if torch.cuda.is_available(): vgg123 = vgg123.cuda()
+vgg345 = VGG345().eval()
+if torch.cuda.is_available(): vgg345 = vgg345.cuda()
 
 
 def kl_loss(mu, logvar, beta):
