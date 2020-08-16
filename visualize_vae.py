@@ -1,8 +1,10 @@
 import argparse
+import matplotlib.pyplot as plt
 import os
 import torch
 import torchvision.transforms as transforms
 
+from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from utils.hyperparameters import DIM_LATENT, CROP_LEFT, CROP_RIGHT, CROP_UPPER,\
@@ -20,7 +22,11 @@ if __name__ == '__main__':
     
     args = parser.parse_args()
 
+    img_names = os.listdir(args.imgdir)
+    n_imgs = len(img_names)
+
     vae = VAE(DIM_LATENT)
+    vae.load_state_dict(torch.load(args.vae))
 
     transform = transforms.Compose([
         transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
@@ -30,15 +36,27 @@ if __name__ == '__main__':
         transform_to_tensor()
     ])
 
-    dataset = ImageFolder(args.imgdir, transform=transform)
-    loader = DataLoader(dataset, 1, shuffle=False, drop_last=False)
-
+    fig = plt.figure()
 
     with torch.no_grad():
-        for batch in loader:
-            x_true, _ = batch
+        for i in range(n_imgs):
+            path = os.path.join(args.imgdir, img_names[i])
+            img = Image.open(path)
+            
+            x_true = transform(img)
+            x_true = x_true.unsqueeze(0)
             x_true = x_true.view(1, 3, 64, 64)
             x_rec, mu, logvar = vae(x_true)
 
             img_true = x_true.squeeze(0).view(64, 64, 3).numpy()
             img_rec = x_rec.squeeze(0).view(64, 64, 3).numpy()
+
+            fig.add_subplot(2, n_imgs, i+1)
+            plt.imshow(img_true)
+            plt.axis('off')
+
+            fig.add_subplot(2, n_imgs, n_imgs+i+1)
+            plt.imshow(img_rec)
+            plt.axis('off')
+    
+    plt.show()
