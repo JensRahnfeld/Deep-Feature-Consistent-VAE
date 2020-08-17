@@ -9,7 +9,7 @@ if torch.cuda.is_available(): vgg345 = vgg345.cuda()
 
 
 def kl_loss(mu, logvar):
-    loss = -0.5 * torch.sum(-torch.exp(logvar/2.0) - mu.pow(2) + 1 + logvar, dim=[1])
+    loss = -0.5 * torch.sum(-torch.exp(logvar/2.0) - mu.pow(2) + 1 + (logvar/2.0), dim=[1])
     loss = torch.mean(loss)
 
     return loss
