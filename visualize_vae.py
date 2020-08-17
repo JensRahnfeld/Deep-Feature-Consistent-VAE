@@ -58,5 +58,6 @@ if __name__ == '__main__':
             fig.add_subplot(2, n_imgs, n_imgs+i+1)
             plt.imshow(img_rec)
             plt.axis('off')
-    
+
+    fig.subplots_adjust(wspace=0, hspace=0)
     plt.show()
