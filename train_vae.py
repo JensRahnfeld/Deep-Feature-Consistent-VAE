@@ -65,6 +65,8 @@ if __name__ == '__main__':
             sys.stdout.write("progress: {0}/{1}".format(t % len(loader), len(loader)))
             sys.stdout.flush()
             
+            optimizer.zero_grad()
+
             x_train, _ = batch
             x_train = x_train.cuda()
             x_train = x_train.view(-1, 3, 64, 64)
