@@ -25,8 +25,14 @@ if __name__ == '__main__':
     parser.add_argument('--modeldir', type=str, default="./trained_models",\
         help="path to folder saving trained model")
     parser.add_argument('-o', type=str, default="vae", help="name of model")
+    parser.add_argument('--loss', type=int, default=0,\
+        help="0 -> l2_loss, 1 -> vgg123_loss, 2 -> vgg345_loss")
     
     args = parser.parse_args()
+    if args.loss == 0: loss_fn = l2_loss
+    elif args.loss == 1: loss_fn = vgg123_loss
+    elif args.loss == 2: loss_fn = vgg345_loss
+    else: raise ValueError("loss should be 0, 1 or 2")
 
     print_hyperparameters()
     
@@ -74,7 +80,7 @@ if __name__ == '__main__':
             x_rec, mu, logvar = vae(x_train)
 
             dist_loss = BETA * kl_loss(mu, logvar)
-            rec_loss = ALPHA * l2_loss(x_rec, x_train)
+            rec_loss = ALPHA * loss_fn(x_rec, x_train)
             loss = dist_loss + rec_loss
 
             writer.add_scalar("train / kl loss", dist_loss, t)
