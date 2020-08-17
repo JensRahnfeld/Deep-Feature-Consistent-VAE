@@ -20,19 +20,13 @@ def l2_loss(x_rec, x_true):
 
     return loss
 
-def mean_squared_error(pred, target):
-    C, H, W = pred.size()[1:]
-    loss = torch.sum((pred - target).pow(2), dim=[1,2,3]) / (C * H * W)
-
-    return loss
-
 def vgg123_loss(x_rec, x_true):
     out1_rec, out2_rec, out3_rec = vgg123(x_rec)
     out1_true, out2_true, out3_true = vgg123(x_true)
 
-    loss1 = 0.5 * mean_squared_error(out1_rec, out1_true)
-    loss2 = 0.5 * mean_squared_error(out2_rec, out2_true)
-    loss3 = 0.5 * mean_squared_error(out3_rec, out3_true)
+    loss1 = torch.sum((out1_rec - out1_true).pow(2), dim=[1,2,3])
+    loss2 = torch.sum((out2_rec - out2_true).pow(2), dim=[1,2,3])
+    loss3 = torch.sum((out3_rec - out3_true).pow(2), dim=[1,2,3])
     loss = torch.mean(loss1 + loss2 + loss3)
 
     return loss
@@ -41,9 +35,9 @@ def vgg345_loss(x_rec, x_true):
     out1_rec, out2_rec, out3_rec = vgg345(x_rec)
     out1_true, out2_true, out3_true = vgg345(x_true)
 
-    loss1 = 0.5 * mean_squared_error(out1_rec, out1_true)
-    loss2 = 0.5 * mean_squared_error(out2_rec, out2_true)
-    loss3 = 0.5 * mean_squared_error(out3_rec, out3_true)
+    loss1 = torch.sum((out1_rec - out1_true).pow(2), dim=[1,2,3])
+    loss2 = torch.sum((out2_rec - out2_true).pow(2), dim=[1,2,3])
+    loss3 = torch.sum((out3_rec - out3_true).pow(2), dim=[1,2,3])
     loss = torch.mean(loss1 + loss2 + loss3)
 
     return loss
