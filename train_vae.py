@@ -81,8 +81,8 @@ if __name__ == '__main__':
 
             x_rec, mu, logvar = vae(x_train)
 
-            dist_loss = BETA * kl_loss(mu, logvar)
-            rec_loss = ALPHA * loss_fn(x_rec, x_train)
+            dist_loss = ALPHA * kl_loss(mu, logvar)
+            rec_loss = BETA * loss_fn(x_rec, x_train)
             loss = dist_loss + rec_loss
 
             writer.add_scalar("train / kl loss", dist_loss, t)
