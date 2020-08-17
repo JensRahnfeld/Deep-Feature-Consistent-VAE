@@ -16,7 +16,7 @@ CROP_LOWER = 218-25
 RESIZE_HEIGHT = 64
 RESIZE_WIDTH = 64
 
-def print_hyperparameters():
+def print_hyperparameters(loss_id, save_epochs):
     print("dim latent                       : {0}".format(DIM_LATENT))
     print("number of epochs                 : {0}".format(EPOCHS))
     print("batch size                       : {0}".format(BATCH_SIZE))
@@ -24,6 +24,9 @@ def print_hyperparameters():
     print("weight decay                     : {0}".format(WEIGHT_DECAY))
     print("alpha (kl loss)                  : {0}".format(ALPHA))
     print("beta (rec loss)                  : {0}".format(BETA))
+    print("rec loss                         : {0}".format(["l2_loss", "vgg123_loss",\
+        "vgg345_loss"][loss_id]))
     print("crop (left, upper, right, lower) : ({0}, {1}, {2}, {3})".format(CROP_LEFT,\
         CROP_UPPER, CROP_RIGHT, CROP_LOWER))
     print("resize (height, width)           : ({0}, {1})".format(RESIZE_HEIGHT, RESIZE_WIDTH))
+    print("save model after each epoch      : {0}".format(save_epochs))

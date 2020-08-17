@@ -27,6 +27,8 @@ if __name__ == '__main__':
     parser.add_argument('-o', type=str, default="vae", help="name of model")
     parser.add_argument('--loss', type=int, default=0,\
         help="0 -> l2_loss, 1 -> vgg123_loss, 2 -> vgg345_loss")
+    parser.add_argument('--save_epochs', type=bool, default=False,\
+        help="save model after each epoch")
     
     args = parser.parse_args()
     if args.loss == 0: loss_fn = l2_loss
@@ -34,7 +36,7 @@ if __name__ == '__main__':
     elif args.loss == 2: loss_fn = vgg345_loss
     else: raise ValueError("loss should be 0, 1 or 2")
 
-    print_hyperparameters()
+    print_hyperparameters(args.loss, args.save_epochs)
     
     vae = VAE(DIM_LATENT)
     if torch.cuda.is_available(): vae = vae.cuda()
@@ -94,8 +96,9 @@ if __name__ == '__main__':
 
         scheduler.step()
 
-        file_name = os.path.join(args.modeldir, args.o + str(n) + ".tmp" ".pt")
-        torch.save(vae.state_dict(), file_name)
+        if args.save_epochs:
+            file_name = os.path.join(args.modeldir, args.o + str(n) + ".tmp" ".pt")
+            torch.save(vae.state_dict(), file_name)
 
         sys.stdout.write("\n")
         sys.stdout.flush()
