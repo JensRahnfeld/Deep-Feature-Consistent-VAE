@@ -4,6 +4,8 @@ import torchvision.models as models
 
 
 vggnet = models.__dict__['vgg19'](pretrained=True)
+for param in vggnet.features.parameters():
+    param.requires_grad = False
 
 
 class VGG123(nn.Module):
