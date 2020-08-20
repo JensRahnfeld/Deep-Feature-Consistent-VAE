@@ -1,5 +1,8 @@
 import numpy as np
 import torch
+import torchvision.transforms as transforms
+
+from utils.hyperparameters import *
 
 
 def transform_crop(left, upper, right, lower):
@@ -43,3 +46,12 @@ def transform_to_tensor():
         return x
     
     return _to_tensor
+
+transform = transforms.Compose([
+        transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
+        transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
+        transform_to_np(),
+        transform_scale(255.0),
+        transform_normalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
+        transform_to_tensor()
+    ])

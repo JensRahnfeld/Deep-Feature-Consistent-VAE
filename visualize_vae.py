@@ -7,10 +7,8 @@ import torchvision.transforms as transforms
 from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
-from utils.hyperparameters import DIM_LATENT, CROP_LEFT, CROP_RIGHT, CROP_UPPER,\
-    CROP_LOWER, RESIZE_HEIGHT, RESIZE_WIDTH, NORMALIZE_MEAN, NORMALIZE_STDEV
-from utils.img_transforms import transform_crop, transform_resize, transform_scale,\
-    transform_normalize, transform_to_np, transform_to_tensor
+from utils.hyperparameters import DIM_LATENT, NORMALIZE_MEAN, NORMALIZE_STDEV
+from utils.img_transforms import transform
 from models.vae import VAE
 
 
@@ -27,15 +25,6 @@ if __name__ == '__main__':
 
     vae = VAE(DIM_LATENT)
     vae.load_state_dict(torch.load(args.vae))
-
-    transform = transforms.Compose([
-        transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
-        transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
-        transform_to_np(),
-        transform_scale(255.0),
-        transform_normalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
-        transform_to_tensor()
-    ])
 
     fig = plt.figure()
 

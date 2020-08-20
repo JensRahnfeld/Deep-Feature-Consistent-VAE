@@ -10,8 +10,7 @@ from torch.utils.tensorboard import SummaryWriter
 from torchvision.datasets import ImageFolder
 from utils.hyperparameters import *
 from utils.loss_functions import kl_loss, l2_loss, vgg123_loss, vgg345_loss
-from utils.img_transforms import transform_crop, transform_resize, transform_scale,\
-    transform_normalize, transform_to_np, transform_to_tensor
+from utils.img_transforms import transform
 from models.vae import VAE
 
 
@@ -40,16 +39,6 @@ if __name__ == '__main__':
     
     vae = VAE(DIM_LATENT)
     if torch.cuda.is_available(): vae = vae.cuda()
-
-
-    transform = transforms.Compose([
-        transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
-        transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
-        transform_to_np(),
-        transform_scale(255.0),
-        transform_normalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
-        transform_to_tensor()
-    ])
 
     dataset = ImageFolder(args.imgdir, transform=transform)
     loader = DataLoader(dataset, BATCH_SIZE, shuffle=True, num_workers=args.workers,\
