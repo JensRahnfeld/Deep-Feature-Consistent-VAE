@@ -21,8 +21,7 @@ def l2_loss(x_rec, x_true):
     return loss
 
 def layer_loss(pred, target):
-    C, H, W = pred.size()[1:]
-    loss = torch.sum((pred - target).pow(2), dim=[1,2,3]) / (2 * C * H * W)
+    loss = torch.sum((pred - target).pow(2), dim=[1,2,3])
 
     return loss
 
