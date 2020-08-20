@@ -2,7 +2,6 @@ import argparse
 import matplotlib.pyplot as plt
 import numpy as np
 import torch
-import torchvision.transforms as transforms
 
 from models.vae import VAE
 from PIL import Image
