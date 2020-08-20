@@ -54,7 +54,7 @@ if __name__ == '__main__':
         fig = plt.figure()
         fig.add_subplot(1, n_alphas+2, 1)
         plt.axis('off')
-        plt.imshow((transform(img_left).numpy() * NORMALIZE_MEAN) + NORMALIZE_MEAN)
+        plt.imshow((transform(img_left).numpy() * NORMALIZE_STDEV) + NORMALIZE_MEAN)
 
         for i in range(n_alphas):
             alpha = alphas[i]
@@ -69,7 +69,7 @@ if __name__ == '__main__':
         
         fig.add_subplot(1, n_alphas+2, n_alphas+2)
         plt.axis('off')
-        plt.imshow((transform(img_right).numpy() * NORMALIZE_MEAN) + NORMALIZE_MEAN)
+        plt.imshow((transform(img_right).numpy() * NORMALIZE_STDEV) + NORMALIZE_MEAN)
 
         fig.subplots_adjust(wspace=0, hspace=0)
         plt.show()
