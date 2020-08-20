@@ -6,7 +6,8 @@ import torchvision.transforms as transforms
 
 from models.vae import VAE
 from PIL import Image
-from utils.hyperparameters import DIM_LATENT, NORMALIZE_MEAN, NORMALIZE_STDEV
+from utils.hyperparameters import DIM_LATENT, RESIZE_HEIGHT, RESIZE_WIDTH,\
+    NORMALIZE_MEAN, NORMALIZE_STDEV
 from utils.interpolation import linear_interpolation
 from utils.img_transforms import transform
 
@@ -47,11 +48,14 @@ if __name__ == '__main__':
 
         interpolation = linear_interpolation(latent_left, latent_right)
 
-        fig = plt.figure()
-
         alphas = np.arange(0, 1+args.step_size, args.step_size)
         n_alphas = len(alphas)
         
+        fig = plt.figure()
+        fig.add_subplot(1, n_alphas+2, 1)
+        plt.axis('off')
+        plt.imshow((transform(img_left).numpy() * NORMALIZE_MEAN) + NORMALIZE_MEAN)
+
         for i in range(n_alphas):
             alpha = alphas[i]
             latent = interpolation(alpha)
@@ -59,9 +63,13 @@ if __name__ == '__main__':
             img_rec = x_rec.squeeze(0).view(64, 64, 3).numpy()
             img_rec = (img_rec * NORMALIZE_STDEV) + NORMALIZE_MEAN
 
-            fig.add_subplot(1, n_alphas, i+1)
+            fig.add_subplot(1, n_alphas+2, i+1+1)
             plt.axis('off')
             plt.imshow(img_rec)
         
+        fig.add_subplot(1, n_alphas+2, n_alphas+2)
+        plt.axis('off')
+        plt.imshow((transform(img_right).numpy() * NORMALIZE_MEAN) + NORMALIZE_MEAN)
+
         fig.subplots_adjust(wspace=0, hspace=0)
         plt.show()
