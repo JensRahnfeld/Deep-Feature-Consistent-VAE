@@ -8,9 +8,9 @@ from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from utils.hyperparameters import DIM_LATENT, CROP_LEFT, CROP_RIGHT, CROP_UPPER,\
-    CROP_LOWER, RESIZE_HEIGHT, RESIZE_WIDTH
+    CROP_LOWER, RESIZE_HEIGHT, RESIZE_WIDTH, NORMALIZE_MEAN, NORMALIZE_STDEV
 from utils.img_transforms import transform_crop, transform_resize, transform_scale,\
-    transform_to_np, transform_to_tensor
+    transform_normalize, transform_to_np, transform_to_tensor
 from models.vae import VAE
 
 
@@ -33,6 +33,7 @@ if __name__ == '__main__':
         transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
         transform_to_np(),
         transform_scale(255.0),
+        transform_normalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
         transform_to_tensor()
     ])
 
@@ -50,6 +51,10 @@ if __name__ == '__main__':
 
             img_true = x_true.squeeze(0).view(64, 64, 3).numpy()
             img_rec = x_rec.squeeze(0).view(64, 64, 3).numpy()
+
+            # denormalize
+            img_true = (img_true * NORMALIZE_STDEV) + NORMALIZE_MEAN
+            img_rec = (img_rec * NORMALIZE_STDEV) + NORMALIZE_MEAN
 
             fig.add_subplot(2, n_imgs, i+1)
             plt.imshow(img_true)
