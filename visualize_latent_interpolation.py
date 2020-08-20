@@ -55,7 +55,7 @@ if __name__ == '__main__':
         img_rec = (img_rec * NORMALIZE_STDEV) + NORMALIZE_MEAN
 
         fig.subplot(1, n_alphas, i+1)
-        plt.imshow(img_true)
+        plt.imshow(img_rec)
     
     fig.subplots_adjust(wspace=0, hspace=0)
     plt.show()
