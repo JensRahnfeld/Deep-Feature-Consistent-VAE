@@ -101,7 +101,7 @@ class VAE(_Base):
         latent = mu + stdev * eps
 
         return latent
-    
+
     def forward(self, x):
         mu, logvar = self.encoder(x)
         stdev = torch.exp(logvar / 2.0)
@@ -111,3 +111,13 @@ class VAE(_Base):
         x_rec = self.decoder(latent)
 
         return x_rec, mu, logvar
+    
+    def encode(self, x):
+        mu, logvar = self.encoder(x)
+
+        return mu, logvar
+    
+    def decode(self, x):
+        x_rec = self.decoder(x)
+
+        return x_rec
