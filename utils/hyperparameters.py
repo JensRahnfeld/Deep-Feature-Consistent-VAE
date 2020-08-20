@@ -26,7 +26,7 @@ def print_hyperparameters(loss_id, save_epochs):
     print("number of epochs                 : {0}".format(EPOCHS))
     print("batch size                       : {0}".format(BATCH_SIZE))
     print("learning rate                    : {0}".format(LEARNING_RATE))
-    print("weight decay                     : {0}".format(LEARNING_RATE_DECAY))
+    print("learning rate decay              : {0}".format(LEARNING_RATE_DECAY))
     print("alpha (kl loss)                  : {0}".format(ALPHA))
     print("beta (rec loss)                  : {0}".format(BETA))
     print("rec loss                         : {0}".format(["l2_loss", "vgg123_loss",\
