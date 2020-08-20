@@ -23,6 +23,13 @@ def transform_scale(scale=255.0):
     
     return _scale
 
+def transform_normalize(mean, stdev):
+    def _normalize(x):
+        x = (x - mean) / stdev
+        return x
+
+    return _normalize
+
 def transform_to_np():
     def _to_np(x):
         x = np.array(x).astype('float32')

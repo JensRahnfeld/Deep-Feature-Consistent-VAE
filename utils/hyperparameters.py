@@ -16,6 +16,11 @@ CROP_LOWER = 218-25
 RESIZE_HEIGHT = 64
 RESIZE_WIDTH = 64
 
+# normalize
+NORMALIZE_MEAN = 0.5
+NORMALIZE_STDEV = 0.5
+
+
 def print_hyperparameters(loss_id, save_epochs):
     print("dim latent                       : {0}".format(DIM_LATENT))
     print("number of epochs                 : {0}".format(EPOCHS))
@@ -29,4 +34,6 @@ def print_hyperparameters(loss_id, save_epochs):
     print("crop (left, upper, right, lower) : ({0}, {1}, {2}, {3})".format(CROP_LEFT,\
         CROP_UPPER, CROP_RIGHT, CROP_LOWER))
     print("resize (height, width)           : ({0}, {1})".format(RESIZE_HEIGHT, RESIZE_WIDTH))
+    print("normalize                        : x = (x - {0}) / {1}".format(
+        NORMALIZE_MEAN, NORMALIZE_STDEV))
     print("save model after each epoch      : {0}".format(save_epochs))
