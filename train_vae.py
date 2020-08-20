@@ -60,11 +60,10 @@ if __name__ == '__main__':
     writer = SummaryWriter(args.logdir)
 
     optimizer = optim.Adam(vae.parameters(), lr=LEARNING_RATE)
-    def lr_decay(n): return WEIGHT_DECAY**n
-    scheduler = optim.lr_scheduler.MultiplicativeLR(optimizer, lr_lambda=lr_decay)
-
+    scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=1,\
+        gamma=LEARNING_RATE_DECAY, last_epoch=-1)
+    
     t = 0
-
     for n in range(EPOCHS):
         print("epoch: {0}".format(n))
         
