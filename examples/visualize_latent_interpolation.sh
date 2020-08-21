@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IMG_DIR="../../Datasets/CelebA/img_align_celeba/"
-VAE="../trained_models/vae.pt"
+VAE="../trained_models/vae123.pt"
 
 IMG_LEFT=$(ls $IMG_DIR | shuf -n 1)
 IMG_RIGHT=$(ls $IMG_DIR | shuf -n 1)
