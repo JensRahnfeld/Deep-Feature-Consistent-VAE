@@ -32,4 +32,5 @@ or
 python3 ../visualize_vae.py --vae pvae.pt vae123.pt vae345.pt --imgdir <path>
 ```
 This should result in a plot similar to:
-![reconstruction](plots/reconstruction.png "Reconstruction pvae vs. vae123 vs. vae345")
+![reconstruction](plots/reconstruction.png)
+From top to bottom: original image, pvae, vae123, vae345
