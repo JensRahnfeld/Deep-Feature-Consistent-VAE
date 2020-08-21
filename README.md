@@ -12,6 +12,7 @@ Pytorch Implementation of Hou, Shen, Sun, Qiu, "Deep Feature Consistent Variatio
 
 ## 1) Installing Dependencies
 ```
+pip3 install --upgrade pip
 pip3 install -r requirements.txt
 ```
 
