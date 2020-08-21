@@ -75,7 +75,7 @@ class VGG345(nn.Module):
         x = F.relu(self.conv4_2(out2), inplace=True)
         x = F.relu(self.conv4_3(x), inplace=True)
         x = F.relu(self.conv4_4(x), inplace=True)
-        x = self.max3(x)
+        x = self.max4(x)
 
         out3 = F.relu(self.conv5_1(x), inplace=True)
 
