@@ -31,3 +31,4 @@ or
 ```
 python3 ../visualize_vae.py --vae pvae.pt vae123.pt vae345.pt --imgdir <path>
 ```
+![Reconstruction pvae vs. vae123 vs. vae345](plots/reconstruction.png)
