@@ -47,4 +47,4 @@ python3 ../visualize_latent_interpolation.py --vae vae123.pt --img_left <path1> 
 ```
 This should result in a plot similar to:
 ![linear interpolation](plots/linear_interpolation.png)
-*α=0 ------------------------------------------------------------------------------------------------------------> α=1*
+*α=0 ---------------------------------------------------------------------------------------------------------------------> α=1*
