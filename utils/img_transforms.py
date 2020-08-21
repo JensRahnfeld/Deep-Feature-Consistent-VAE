@@ -32,6 +32,15 @@ def transform_denormalize(mean, stdev):
 
     return _denormalize
 
+def transform_clip(min_val=0.0, max_val=1.0):
+    def _clip(tensor):
+        tensor = torch.clamp(tensor, min_val, max_val)
+
+        return tensor
+    
+    return _clip
+
+
 transform = transforms.Compose([
         transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
         transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
@@ -41,5 +50,6 @@ transform = transforms.Compose([
 
 transform_back = transforms.Compose([
         transform_denormalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
+        transform_clip(),
         transforms.ToPILImage()
     ])
