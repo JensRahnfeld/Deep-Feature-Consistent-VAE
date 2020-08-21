@@ -1,3 +1,5 @@
+import numpy as np
+
 DIM_LATENT = 100
 EPOCHS = 5
 BATCH_SIZE = 64
@@ -17,8 +19,8 @@ RESIZE_HEIGHT = 64
 RESIZE_WIDTH = 64
 
 # normalize
-NORMALIZE_MEAN = 0.5
-NORMALIZE_STDEV = 0.5
+NORMALIZE_MEAN = np.array([0.52, 0.40, 0.34])
+NORMALIZE_STDEV = np.array([0.25, 0.21, 0.20])
 
 
 def print_hyperparameters(loss_id, save_epochs):

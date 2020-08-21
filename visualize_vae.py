@@ -8,7 +8,7 @@ from PIL import Image
 from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from utils.hyperparameters import DIM_LATENT, NORMALIZE_MEAN, NORMALIZE_STDEV
-from utils.img_transforms import transform
+from utils.img_transforms import transform, transform_back
 from models.vae import VAE
 
 
@@ -38,12 +38,12 @@ if __name__ == '__main__':
             x_true = x_true.view(1, 3, 64, 64)
             x_rec, mu, logvar = vae(x_true)
 
-            img_true = x_true.squeeze(0).view(64, 64, 3).numpy()
-            img_rec = x_rec.squeeze(0).view(64, 64, 3).numpy()
+            x_true = x_true.squeeze(0)
+            x_rec = x_rec.squeeze(0)
 
             # denormalize
-            img_true = (img_true * NORMALIZE_STDEV) + NORMALIZE_MEAN
-            img_rec = (img_rec * NORMALIZE_STDEV) + NORMALIZE_MEAN
+            img_true = transform_back(x_true)
+            img_rec = transform_back(x_rec)
 
             fig.add_subplot(2, n_imgs, i+1)
             plt.imshow(img_true)

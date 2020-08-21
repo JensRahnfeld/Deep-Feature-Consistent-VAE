@@ -19,39 +19,27 @@ def transform_resize(height, width):
 
     return _resize
 
-def transform_scale(scale=255.0):
-    def _scale(x):
-        x = (x / scale)
-        return x
-    
-    return _scale
+def transform_denormalize(mean, stdev):
+    def _denormalize(tensor):
+        dtype = tensor.dtype
+        mean_t = torch.as_tensor(mean, dtype=dtype, device=tensor.device)
+        mean_t = mean_t[:, None, None]
+        stdev_t = torch.as_tensor(stdev, dtype=dtype, device=tensor.device)
+        stdev_t = stdev_t[:, None, None]
+        tensor = (tensor * stdev_t) + mean_t
+        
+        return tensor
 
-def transform_normalize(mean, stdev):
-    def _normalize(x):
-        x = (x - mean) / stdev
-        return x
-
-    return _normalize
-
-def transform_to_np():
-    def _to_np(x):
-        x = np.array(x).astype('float32')
-        return x
-    
-    return _to_np
-
-def transform_to_tensor():
-    def _to_tensor(x):
-        x = torch.tensor(x)
-        return x
-    
-    return _to_tensor
+    return _denormalize
 
 transform = transforms.Compose([
         transform_crop(CROP_LEFT, CROP_UPPER, CROP_RIGHT, CROP_LOWER),
         transform_resize(RESIZE_HEIGHT, RESIZE_WIDTH),
-        transform_to_np(),
-        transform_scale(255.0),
-        transform_normalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
-        transform_to_tensor()
+        transforms.ToTensor(),
+        transforms.Normalize(NORMALIZE_MEAN, NORMALIZE_STDEV)
+    ])
+
+transform_back = transforms.Compose([
+        transform_denormalize(NORMALIZE_MEAN, NORMALIZE_STDEV),
+        transforms.ToPILImage()
     ])
