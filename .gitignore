@@ -6,3 +6,6 @@ tensorboard/*
 
 # trained models
 *.pt
+
+# vscode
+.vscode/
