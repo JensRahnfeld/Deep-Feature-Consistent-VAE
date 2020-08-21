@@ -15,6 +15,12 @@ pip3 install -r requirements.txt
 ```
 
 ## 2) Train Vae
+Either execute the (modified) example script, i.e.
+```
+cd examples
+bash train_vae.sh
+```
+or
 ```
 python3 train_vae.py --imgdir <path> --loss 0 -o pvae
 python3 train_vae.py --imgdir <path> --loss 1 -o vae123
