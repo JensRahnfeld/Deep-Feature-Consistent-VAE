@@ -16,5 +16,18 @@ pip3 install -r requirements.txt
 
 ## 2) Train Vae
 ```
-python3 train_vae.py --imgdir <path> --workers 8 -o vae
+python3 train_vae.py --imgdir <path> --loss 0 -o pvae
+python3 train_vae.py --imgdir <path> --loss 1 -o vae123
+python3 train_vae.py --imgdir <path> --loss 2 -o vae345
+```
+
+## 3) Visualize vae reconstructions
+Either execute the (modified) example script, i.e.
+```
+cd examples
+bash visualize_vae.sh
+```
+or
+```
+python3 ../visualize_vae.py --vae pvae.pt vae123.pt vae345.pt --imgdir <path>
 ```
