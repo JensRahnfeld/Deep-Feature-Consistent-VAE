@@ -3,6 +3,7 @@ Pytorch Implementation of Hou, Shen, Sun, Qiu, "Deep Feature Consistent Variatio
 
 ## Requirements
 * Python 3.6.9
+* matplotlib 3.2.1
 * numpy 1.19.0
 * pillow 7.2.0
 * pytorch 1.5.1
