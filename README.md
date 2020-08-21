@@ -48,3 +48,11 @@ python3 ../visualize_latent_interpolation.py --vae vae123.pt --img_left <path1> 
 
 ![linear interpolation](plots/linear_interpolation.png)
 *original α=0 -------------------------------------------------------------------------------------------------------------------------> α=1 original*
+
+## 5) Visualize Facial Attribute Manipulation
+```
+python3 ../visualize_facial_attribute_manipulation.py --vae vae123.pt --list_attr <path1> --attr <attr> --imgdir <path2> --img <path3>
+```
+
+![facial attribute manipulation](plots/facial_attribute_manipulation.png)
+*original α=0 -------------------------------------------------------------------------------------------------------------------------> α=1*
