@@ -8,7 +8,7 @@ from PIL import Image
 from utils.hyperparameters import DIM_LATENT, RESIZE_HEIGHT, RESIZE_WIDTH,\
     NORMALIZE_MEAN, NORMALIZE_STDEV
 from utils.interpolation import linear_interpolation
-from utils.img_transforms import transform
+from utils.img_transforms import transform, transform_back
 
 
 if __name__ == '__main__':
@@ -53,14 +53,14 @@ if __name__ == '__main__':
         fig = plt.figure()
         fig.add_subplot(1, n_alphas+2, 1)
         plt.axis('off')
-        plt.imshow((transform(img_left).numpy() * NORMALIZE_STDEV) + NORMALIZE_MEAN)
+        plt.imshow(transform_back(x_left.squeeze(0)))
 
         for i in range(n_alphas):
             alpha = alphas[i]
             latent = interpolation(alpha)
             x_rec = vae.decode(latent)
-            img_rec = x_rec.squeeze(0).view(64, 64, 3).numpy()
-            img_rec = (img_rec * NORMALIZE_STDEV) + NORMALIZE_MEAN
+            x_rec = x_rec.squeeze(0)
+            img_rec = transform_back(x_rec)
 
             fig.add_subplot(1, n_alphas+2, i+1+1)
             plt.axis('off')
@@ -68,7 +68,7 @@ if __name__ == '__main__':
         
         fig.add_subplot(1, n_alphas+2, n_alphas+2)
         plt.axis('off')
-        plt.imshow((transform(img_right).numpy() * NORMALIZE_STDEV) + NORMALIZE_MEAN)
+        plt.imshow(transform_back(x_right.squeeze(0)))
 
         fig.subplots_adjust(wspace=0, hspace=0)
         plt.show()
