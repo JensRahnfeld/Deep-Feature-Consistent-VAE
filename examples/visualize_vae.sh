@@ -1,7 +1,8 @@
 #!/bin/bash
 
 IMG_DIR="../../Datasets/CelebA/img_align_celeba/"
-VAE="../trained_models/vae.pt"
+PVAE="../trained_models/pvae.pt"
+VAE123="../trained_models/vae123.pt"
 
 IMGS=$(ls $IMG_DIR | shuf -n 10)
 
@@ -13,6 +14,6 @@ do
     cp $IMG_DIR$IMG $IMG_TMP
 done
 
-python3 ../visualize_vae.py --vae $VAE --imgdir $IMG_TMP
+python3 ../visualize_vae.py --vae $PVAE $VAE123 --imgdir $IMG_TMP
 
 rm -r $IMG_TMP
