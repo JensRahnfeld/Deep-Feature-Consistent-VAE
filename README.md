@@ -34,3 +34,17 @@ python3 ../visualize_vae.py --vae pvae.pt vae123.pt vae345.pt --imgdir <path>
 This should result in a plot similar to:
 ![reconstruction](plots/reconstruction.png)
 *From top to bottom: original image, pvae, vae123, vae345*
+
+## 4) Visualize Linear Interpolation of Latent Space
+Either execute the (modified) example script, i.e.
+```
+cd examples
+bash visualize_latent_interpolation.sh
+```
+or
+```
+python3 ../visualize_latent_interpolation.py --vae vae123.pt --img_left <path1> --img_right <path2>
+```
+This should result in a plot similar to:
+![linear interpolation](plots/linear_interpolation.png)
+*α=0 ----------------------------------------------------------> α=1*
