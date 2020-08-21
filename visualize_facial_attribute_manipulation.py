@@ -1,5 +1,6 @@
 import argparse
 import csv
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 import torch
@@ -7,6 +8,7 @@ import torch
 from PIL import Image
 from models.vae import VAE
 from utils.hyperparameters import DIM_LATENT
+from utils.plots import grid_add_img
 from utils.img_transforms import transform, transform_back
 
 
@@ -51,7 +53,10 @@ if __name__ == '__main__':
         help="attribute used")
     parser.add_argument('--imgdir', type=str, required=True,\
         help="path to image folder")
-    parser.add_argument('--size', type=int, default=1000, help="number of images")
+    parser.add_argument('--img', type=str, required=True, help="path to target img")
+    parser.add_argument('--n_img', type=int, default=1000, help="number of images")
+    parser.add_argument('--step_size', type=float, default=0.1,\
+        help="step size of linear interpolation")
 
     args = parser.parse_args()
 
@@ -71,8 +76,35 @@ if __name__ == '__main__':
             files_neg.append(row['image_id'])
         else: raise ValueError("found non-matching label")
     
-    files_pos = np.random.choice(files_pos, args.size, replace=False)
-    files_neg = np.random.choice(files_neg, args.size, replace=False)
+    files_pos = np.random.choice(files_pos, args.n_img, replace=False)
+    files_neg = np.random.choice(files_neg, args.n_img, replace=False)
 
     latent_pos = mean_latent(vae, files_pos, args.imgdir)
     latent_neg = mean_latent(vae, files_neg, args.imgdir)
+    latent_attr = latent_pos - latent_neg
+
+    img = Image.open(args.img)
+    x_true = transform(img)
+    x_true = x_true.unsqueeze(0)
+    mean, logvar = vae.encode(x_true)
+    latent_img = vae.sample(mean, torch.exp(logvar/2.0))
+    latent_img = latent_img.squeeze(0)
+
+    alphas = np.arange(0, 1+args.step_size, args.step_size)
+    n_alphas = len(alphas)
+
+    fig = plt.figure()
+
+    grid_add_img(transform_back(x_true.squeeze(0)), fig, 1, n_alphas+1, 1)
+
+    for i in range(n_alphas):
+        alpha = alphas[i]
+        latent = latent_img + alpha * latent_attr
+        x_rec = vae.decode(latent)
+        x_rec = x_rec.squeeze(0)
+        img_rec = transform_back(x_rec)
+
+        grid_add_img(img_rec, fig, 1, n_alphas+1, i+1+1)
+
+    fig.subplots_adjust(wspace=0, hspace=0)
+    plt.show()
