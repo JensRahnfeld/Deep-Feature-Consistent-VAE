@@ -9,13 +9,8 @@ from torch.utils.data import DataLoader
 from torchvision.datasets import ImageFolder
 from utils.hyperparameters import DIM_LATENT, NORMALIZE_MEAN, NORMALIZE_STDEV
 from utils.img_transforms import transform, transform_back
+from utils.plots import grid_add_img
 from models.vae import VAE
-
-
-def grid_add_img(img, fig, rows, cols, pos):
-    fig.add_subplot(rows, cols, pos)
-    plt.imshow(img)
-    plt.axis('off')
 
 
 if __name__ == '__main__':

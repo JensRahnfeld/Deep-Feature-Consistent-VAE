@@ -9,6 +9,7 @@ from utils.hyperparameters import DIM_LATENT, RESIZE_HEIGHT, RESIZE_WIDTH,\
     NORMALIZE_MEAN, NORMALIZE_STDEV
 from utils.interpolation import linear_interpolation
 from utils.img_transforms import transform, transform_back
+from utils.plots import grid_add_img
 
 
 if __name__ == '__main__':
@@ -51,9 +52,8 @@ if __name__ == '__main__':
         n_alphas = len(alphas)
         
         fig = plt.figure()
-        fig.add_subplot(1, n_alphas+2, 1)
-        plt.axis('off')
-        plt.imshow(transform_back(x_left.squeeze(0)))
+
+        grid_add_img(transform_back(x_left.squeeze(0)), fig, 1, n_alphas+2, 1)
 
         for i in range(n_alphas):
             alpha = alphas[i]
@@ -62,13 +62,9 @@ if __name__ == '__main__':
             x_rec = x_rec.squeeze(0)
             img_rec = transform_back(x_rec)
 
-            fig.add_subplot(1, n_alphas+2, i+1+1)
-            plt.axis('off')
-            plt.imshow(img_rec)
+            grid_add_img(img_rec, fig, 1, n_alphas+2, i+1+1)
         
-        fig.add_subplot(1, n_alphas+2, n_alphas+2)
-        plt.axis('off')
-        plt.imshow(transform_back(x_right.squeeze(0)))
+        grid_add_img(transform_back(x_right.squeeze(0)), fig, 1, n_alphas+2, n_alphas+2)
 
         fig.subplots_adjust(wspace=0, hspace=0)
         plt.show()
