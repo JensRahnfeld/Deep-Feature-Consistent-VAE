@@ -3,3 +3,6 @@
 
 # tensorboard output
 tensorboard/*
+
+# trained models
+*.pt
