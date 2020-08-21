@@ -21,7 +21,7 @@ python3 train_vae.py --imgdir <path> --loss 1 -o vae123
 python3 train_vae.py --imgdir <path> --loss 2 -o vae345
 ```
 
-## 3) Visualize vae reconstructions
+## 3) Visualize Vae Reconstructions
 Either execute the (modified) example script, i.e.
 ```
 cd examples
