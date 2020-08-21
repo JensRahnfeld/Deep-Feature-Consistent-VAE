@@ -16,8 +16,8 @@ from models.vae import VAE
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--imgdir', type=str, required=True,\
-        help="path to image folder")
+    parser.add_argument('--rootdir', type=str, required=True,\
+        help="path to image folder (root)")
     parser.add_argument('--logdir', type=str, default="./tensorboard",\
         help="path to tensorboard logdir")
     parser.add_argument('--workers', type=int, default=8, help="number of workers")
@@ -40,7 +40,7 @@ if __name__ == '__main__':
     vae = VAE(DIM_LATENT)
     if torch.cuda.is_available(): vae = vae.cuda()
 
-    dataset = ImageFolder(args.imgdir, transform=transform)
+    dataset = ImageFolder(args.rootdir, transform=transform)
     loader = DataLoader(dataset, BATCH_SIZE, shuffle=True, num_workers=args.workers,\
         drop_last=True)
 
